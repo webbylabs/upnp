@@ -28,14 +28,14 @@ package upnp
 import (
 	"context"
 	"errors"
+	"math/rand"
 	"net"
 	"net/url"
 	"strings"
 	"time"
 
-	"gitlab.com/NebulousLabs/fastrand"
-	"gitlab.com/NebulousLabs/go-upnp/goupnp"
-	"gitlab.com/NebulousLabs/go-upnp/goupnp/dcps/internetgateway1"
+	"github.com/webbylabs/upnp/goupnp"
+	"github.com/webbylabs/upnp/goupnp/dcps/internetgateway1"
 )
 
 // An IGD provides an interface to the most commonly used functions of an
@@ -163,7 +163,7 @@ func DiscoverCtx(ctx context.Context) (*IGD, error) {
 	// TODO: if more than one client is found, only return those on the same
 	// subnet as the user?
 	maxTries := 3
-	sleepTime := time.Millisecond * time.Duration(fastrand.Intn(5000))
+	sleepTime := time.Millisecond * time.Duration(rand.Intn(5000))
 	for try := 0; try < maxTries; try++ {
 		pppclients, _, _ := internetgateway1.NewWANPPPConnection1Clients(ctx)
 		if len(pppclients) > 0 {
